@@ -3,7 +3,8 @@ import { createContext, useEffect, useState } from 'react'
 let timeoutReference;
 
 const AuthContext = createContext({
-  token: '',
+  token: null,
+  userId: null,
   isLoggedIn: false,
   login: (token) => { },
   logout: () => { }
@@ -12,12 +13,14 @@ const AuthContext = createContext({
 
 export const AuthContextProvider = (props) => {
   const [token,setToken] = useState(localStorage.getItem("token"))
-  console.log(localStorage.getItem("token"))
+  const [userId,setUserId] = useState(localStorage.getItem("userId"))
   const isLoggedIn = !!token
   
-  const login = (token) => {
+  const login = (token,userId) => {
     setToken(token)
+    setUserId(userId)
     localStorage.setItem("token",token)
+    localStorage.setItem("userId",userId)
     localStorage.setItem("expirationTime",(new Date()).getTime() + 3600000)
     timeoutReference = setTimeout(logout,36000000)
   }
@@ -25,6 +28,7 @@ export const AuthContextProvider = (props) => {
   const logout = () => {
     setToken(null)
     localStorage.removeItem("token")
+    localStorage.removeItem("userId")
     localStorage.removeItem("expirationTime")
     
     if(timeoutReference) {
@@ -38,11 +42,11 @@ export const AuthContextProvider = (props) => {
 
   const contextValue = {
     token,
+    userId,
     isLoggedIn,
     login,
     logout
   }
-
 
   return <AuthContext.Provider value={contextValue}>{props.children}</AuthContext.Provider>
 

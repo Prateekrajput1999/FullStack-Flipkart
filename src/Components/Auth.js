@@ -18,7 +18,7 @@ const Auth = () => {
       returnSecureTooken:true
     })
     .then((res) => {
-      AuthCtx.login(res.data.idToken)
+      AuthCtx.login(res.data.idToken,res.data.localId)
     })
     .catch(err => {
       alert(`Login error : ${err.message}`)
@@ -37,12 +37,10 @@ const Auth = () => {
       password,
       returnSecureTooken: true
     })
-    .then((res) => {
-      alert("new Account Created")
-    })
     .catch((err) => {
       alert(err.message)
     })
+
     setEmail('')
     setPassword('')
   }
