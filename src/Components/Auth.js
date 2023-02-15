@@ -37,6 +37,7 @@ const Auth = () => {
       password,
       returnSecureTooken: true
     })
+    .then(alert(`New Account Created with Email : ${email}`))
     .catch((err) => {
       alert(err.message)
     })

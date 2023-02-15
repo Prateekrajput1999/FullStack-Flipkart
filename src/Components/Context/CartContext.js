@@ -1,30 +1,23 @@
-import { createContext, useEffect, useState } from 'react'
+import { createContext, useEffect, useState, useContext } from 'react'
+import AuthContext from './AuthContext';
+import axios from 'axios';
 
 const cartContext = createContext({
     cartData: [],
-    addToCart: (productData) => { },
-    removeFromCart: (id) => { }
+    setCartData: (cartData) => {}
 });
 
 
 export const CartContextProvider = (props) => {
-    
+    const AuthCtx = useContext(AuthContext)
     const [cartData, setCartData] = useState([])
-
-    const addToCart = (productData) => {
-        setCartData((cartData) => [...cartData, productData])
-    }
-
-    const removeFromCart = (key) => {
-        setCartData((cartData) => cartData.filter(obj => obj.key !== key))
-    }
 
     const contextValue = {
         cartData,
-        addToCart,
-        removeFromCart
+        setCartData
     }
 
+    
     return <cartContext.Provider value={contextValue}>{props.children}</cartContext.Provider>
 }
 

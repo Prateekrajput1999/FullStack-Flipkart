@@ -1,5 +1,5 @@
-import React, {useContext} from 'react'
-import { BsCartPlusFill } from 'react-icons/bs'
+import React, { useContext, useEffect } from 'react'
+import { BsCartPlusFill, BsFillCartCheckFill } from 'react-icons/bs'
 import AuthContext from './Context/AuthContext'
 import cartContext from './Context/CartContext'
 import axios from 'axios'
@@ -7,18 +7,17 @@ import axios from 'axios'
 const ProductCard = (props) => {
     const AuthCtx = useContext(AuthContext)
     const CartCtx = useContext(cartContext)
-
     const { key, title, src, dimension, price } = props.obj
     let newTitle = title;
-    let newDimention = dimension
+    let newDimension = dimension
 
     if (newTitle.length > 65) newTitle = newTitle.substring(0, 65)
-    if (newDimention.length > 65) newDimention = newDimention.substring(0, 65)
+    if (newDimension.length > 65) newDimension = newDimension.substring(0, 65)
 
     const handleCartClick = (e) => {
         e.preventDefault()
-        
-        if(AuthCtx.userId == null) {
+
+        if (AuthCtx.userId === null) {
             alert("login to add to cart")
             return
         }
@@ -27,9 +26,11 @@ const ProductCard = (props) => {
             title,
             src,
             dimension,
-            price
+            price,
+            qty: 1
         }).then(res => {
-            CartCtx.addToCart({title,src,dimension,price,qty:1,key:res.data.name})
+            const data = CartCtx.cartData
+            CartCtx.setCartData([...data, { title, src, dimension, price, qty: 1, id: res.data.name }])
         })
     }
 
@@ -40,10 +41,20 @@ const ProductCard = (props) => {
                 <p className='w-[390px] text-xl font-medium'>{newTitle}</p>
                 <div className='flex justify-between'>
                     <div>
-                        <p>{newDimention}</p>
+                        <p>{newDimension}</p>
                         <p className='self-end font-medium text-lg'>{price}</p>
                     </div>
-                    <button onClick={handleCartClick} className='text-5xl mr-10'><BsCartPlusFill /></button>
+                    <div className='mr-10'>
+                        {props.inCart ?
+                            <button className='text-green-800 text-5xl'>
+                                <BsFillCartCheckFill className='cursor-default' />
+                            </button>
+                            :
+                            <button onClick={handleCartClick} className='text-5xl '>
+                                <BsCartPlusFill className='hover:text-green-600' />
+                            </button>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
