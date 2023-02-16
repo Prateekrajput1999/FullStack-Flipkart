@@ -1,7 +1,6 @@
-import axios from 'axios'
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { CategoriesData } from './db'
+import { CategoriesData } from '../db'
 
 
 const Categories = () => {

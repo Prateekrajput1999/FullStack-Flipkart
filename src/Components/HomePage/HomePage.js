@@ -1,8 +1,8 @@
 import React from 'react'
-import Categories from './Categories'
+import Categories from '../Products/Categories'
 import Banner from './Banner'
 import Suggestions from './Suggestions'
-import { Suggestion_data } from './db'
+import { Suggestion_data } from '../db'
 
 
 const HomePage = () => {

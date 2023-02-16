@@ -1,6 +1,6 @@
 import React from 'react'
 import Carousel from 'react-bootstrap/Carousel';
-import { bannerData } from './db';
+import { bannerData } from '../db';
 
 const Banner = () => {
     return (

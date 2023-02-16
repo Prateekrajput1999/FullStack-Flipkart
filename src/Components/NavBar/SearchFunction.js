@@ -1,4 +1,4 @@
-import { Product_data } from "./db"
+import { Product_data } from "../db"
 
 const product_arr = [...Product_data.Grocery,
     ...Product_data.Fashion,

@@ -1,20 +1,20 @@
 import React, {useContext} from 'react'
-import Cart from './Cart'
+import Cart from '../Cart/Cart'
 import SearchBar from './SearchBar'
-import { NavLink } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
-import AuthContext from './Context/AuthContext'
+import { NavLink, useNavigate } from 'react-router-dom'
+import UserContext from '../Context/UserContext'
 
 
 const Navbar = () => {
   const navigate = useNavigate()
-  const AuthCtx = useContext(AuthContext)
+  const UserCtx = useContext(UserContext)
+
 
   const handleClick = (e) => {
     e.preventDefault()
-    if(AuthCtx.isLoggedIn) {
+    if(UserCtx.token) {
       navigate('/')
-      AuthCtx.logout()
+      UserCtx.logout()
     }
     else {
       navigate('login')
@@ -28,7 +28,7 @@ const Navbar = () => {
       </NavLink>
       <SearchBar />
       <button onClick={handleClick} className='border-black bg-white text-[#2874f0] text-lg w-[99px] py-[1px] ml-16'>
-        {AuthCtx.isLoggedIn ? "Logout" : "Login"}
+        {UserCtx.token ? "Logout" : "Login"}
       </button>
       <Cart />
     </div>

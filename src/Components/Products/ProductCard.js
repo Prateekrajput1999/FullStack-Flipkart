@@ -1,13 +1,14 @@
 import React, { useContext, useEffect } from 'react'
 import { BsCartPlusFill, BsFillCartCheckFill } from 'react-icons/bs'
-import AuthContext from './Context/AuthContext'
-import cartContext from './Context/CartContext'
+import UserContext from '../Context/UserContext'
 import axios from 'axios'
 
+
 const ProductCard = (props) => {
-    const AuthCtx = useContext(AuthContext)
-    const CartCtx = useContext(cartContext)
-    const { key, title, src, dimension, price } = props.obj
+    const UserCtx = useContext(UserContext)
+
+    const {key, title, src, dimension, price } = props.obj
+
     let newTitle = title;
     let newDimension = dimension
 
@@ -17,20 +18,20 @@ const ProductCard = (props) => {
     const handleCartClick = (e) => {
         e.preventDefault()
 
-        if (AuthCtx.userId === null) {
+        if (UserCtx.userId === null) {
             alert("login to add to cart")
             return
         }
 
-        axios.post(`https://fkipkart-react-app-default-rtdb.firebaseio.com/userData/${AuthCtx.userId}/cartData.json`, {
+        axios.post(`https://fkipkart-react-app-default-rtdb.firebaseio.com/userData/${UserCtx.userId}/cartData.json`, {
             title,
             src,
             dimension,
             price,
             qty: 1
         }).then(res => {
-            const data = CartCtx.cartData
-            CartCtx.setCartData([...data, { title, src, dimension, price, qty: 1, id: res.data.name }])
+            const data = UserCtx.cartData
+            UserCtx.setCartData([...data, { title, src, dimension, price, qty: 1, id: res.data.name }])
         })
     }
 

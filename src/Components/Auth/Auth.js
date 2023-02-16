@@ -1,13 +1,13 @@
 import React, { useState, useContext } from 'react'
 import axios from 'axios'
-import AuthContext from './Context/AuthContext';
+import UserContext from '../Context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
-  const AuthCtx = useContext(AuthContext);
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
+  const UserCtx = useContext(UserContext);
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -18,7 +18,7 @@ const Auth = () => {
       returnSecureTooken:true
     })
     .then((res) => {
-      AuthCtx.login(res.data.idToken,res.data.localId)
+      UserCtx.login(res.data.idToken,res.data.localId)
     })
     .catch(err => {
       alert(`Login error : ${err.message}`)

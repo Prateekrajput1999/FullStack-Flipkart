@@ -1,17 +1,15 @@
 import React, {useContext} from 'react'
 import { AiOutlinePlusSquare, AiOutlineMinusSquare} from "react-icons/ai"
-import cartContext from './CartContext'
 import axios from 'axios'
-import AuthContext from './AuthContext'
+import UserContext from '../Context/UserContext'
 
 const CartCard = (props) => {
-    const CartCtx = useContext(cartContext)
-    const AuthCtx = useContext(AuthContext)
+    const UserCtx = useContext(UserContext)
 
     const handleRemoveCart = (e) => {
         e.preventDefault()
-        axios.delete(`https://fkipkart-react-app-default-rtdb.firebaseio.com/userData/${AuthCtx.userId}/cartData/${props.id}.json`)
-        CartCtx.setCartData((data) => data.filter((obj) => obj.id !== props.id))
+        axios.delete(`https://fkipkart-react-app-default-rtdb.firebaseio.com/userData/${UserCtx.userId}/cartData/${props.id}.json`)
+        UserCtx.setCartData((data) => data.filter((obj) => obj.id !== props.id))
     }
 
     const increaseQty = (e) => {
@@ -22,11 +20,11 @@ const CartCard = (props) => {
             return
         }
 
-        axios.put(`https://fkipkart-react-app-default-rtdb.firebaseio.com/userData/${AuthCtx.userId}/cartData/${props.id}.json`, {
+        axios.put(`https://fkipkart-react-app-default-rtdb.firebaseio.com/userData/${UserCtx.userId}/cartData/${props.id}.json`, {
             ...props, qty: props.qty+1
         })
 
-        CartCtx.setCartData((data) =>  data.map(obj => {
+        UserCtx.setCartData((data) =>  data.map(obj => {
             if(obj.id === props.id) return {...obj, qty: obj.qty+1}
             return obj
         }))
@@ -40,11 +38,11 @@ const CartCard = (props) => {
             return
         }
         
-        axios.put(`https://fkipkart-react-app-default-rtdb.firebaseio.com/userData/${AuthCtx.userId}/cartData/${props.id}.json`, {
+        axios.put(`https://fkipkart-react-app-default-rtdb.firebaseio.com/userData/${UserCtx.userId}/cartData/${props.id}.json`, {
             ...props, qty: props.qty-1
         })
 
-        CartCtx.setCartData((data) =>  data.map(obj => {
+        UserCtx.setCartData((data) =>  data.map(obj => {
             if(obj.id === props.id) return {...obj, qty: obj.qty-1}
             return obj
         }))
