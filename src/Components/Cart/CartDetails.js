@@ -12,18 +12,21 @@ const CartDetails = () => {
       </div>
       <div>
         {UserCtx.userId ?
-          UserCtx.cartData.map(productData => {
-            return (
-              <CartCard
-                title={productData.title}
-                dimension={productData.dimension}
-                src={productData.src}
-                price={productData.price}
-                id={productData.id}
-                qty={productData.qty}
-              />
-            )
-          })
+          ((UserCtx.cartData).length === 0 ?
+            <h1 className='mt-10 ml-[650px]'>Empty Cart</h1>
+            :
+            UserCtx.cartData.map(productData => {
+              return (
+                <CartCard
+                  title={productData.title}
+                  dimension={productData.dimension}
+                  src={productData.src}
+                  price={productData.price}
+                  id={productData.id}
+                  qty={productData.qty}
+                />
+              )
+            }))
           :
           <div className='h-screen'>
             <h1 className='ml-[570px] bg-slate-300 text-green-700 rounded-3xl pl-6 shadow-2xl shadow-red-400 py-2  mt-[200px] w-[450px]'>Login to see cart data</h1>

@@ -16,9 +16,7 @@ const UserContext = createContext({
 export const UserContextProvider = (props) => {
   const [token, setToken] = useState(localStorage.getItem("token"))
   const [userId, setUserId] = useState(localStorage.getItem("userId"))
-  const [cartData, setCartData] = useState([])
-
-  // console.log("hui",cartData)
+  const [cartData, setCartData] = useState([])  
 
   const login = (token, userId) => {
     setToken(token)
